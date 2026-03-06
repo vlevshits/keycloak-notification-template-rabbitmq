@@ -43,7 +43,7 @@ public class RabbitMqEmailTemplateProviderFactory implements EmailTemplateProvid
             // Declare exchange if it's not a default one
             if (!"".equals(cfg.getExchange()) && !"amq.topic".equals(cfg.getExchange())
                     && !"amq.direct".equals(cfg.getExchange())) {
-                channel.exchangeDeclare(cfg.getExchange(), "topic", true);
+                channel.exchangeDeclare(cfg.getExchange(), "direct", true);
             }
         } catch (IOException | TimeoutException e) {
             log.error("Failed to connect to RabbitMQ for Email Template Provider", e);
