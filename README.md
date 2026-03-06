@@ -20,9 +20,55 @@ The plugin can be configured using environment variables with the `KK_RMQ_EMAIL_
 | `KK_RMQ_EMAIL_PASSWORD` | RabbitMQ Password | `admin` |
 | `KK_RMQ_EMAIL_VHOST` | RabbitMQ Virtual Host | `/` |
 | `KK_RMQ_EMAIL_EXCHANGE` | Exchange for RPC | `keycloak.email.exchange` |
-| `KK_RM_EMAIL_ROUTING_KEY` | Routing key for requests | `keycloak.email.render` |
+| `KK_RMQ_EMAIL_ROUTING_KEY` | Routing key for requests | `keycloak.email.render` |
 | `KK_RMQ_EMAIL_REPLY_TIMEOUT_MS` | RPC Timeout in ms | `10000` |
 | `KK_RMQ_EMAIL_MSG_TYPE` | Message type for `type` property | `RabbitMqEmailRenderRequest` |
+
+## Subject Keys
+
+When a rendering request is sent to RabbitMQ, the `subjectKey` field contains one of the following standard Keycloak message keys. Your renderer should use these to determine the intent of the email or to look up the localized subject string.
+
+| `subjectKey` | Default Template | Description |
+|--------------|------------------|-------------|
+| `passwordResetSubject` | `password-reset.ftl` | Sent when a user requests a password reset. |
+| `emailVerificationSubject` | `email-verification.ftl` | Sent when a user needs to verify their email address. |
+| `executeActionsSubject` | `execute-actions.ftl` | Sent for administrative actions (e.g., "Update Password"). |
+| `identityProviderLinkSubject` | `identity-provider-link.ftl` | Sent when linking an account to an external IDP. |
+| `emailUpdateConfirmationSubject` | `email-update-confirmation.ftl` | Sent to confirm an email address change. |
+| `eventLoginErrorSubject` | `event-login-error.ftl` | Sent when a login error occurs (if configured). |
+| `eventRemoveTotpSubject` | `event-remove-totp.ftl` | Sent when TOTP (MFA) is removed. |
+| `eventUpdatePasswordSubject` | `event-update-password.ftl` | Sent after a successful password update. |
+| `eventUpdateTotpSubject` | `event-update-totp.ftl` | Sent after a successful TOTP (MFA) update. |
+| `orgInviteSubject` | `org-invite.ftl` | Sent for Organization invitations. |
+| `testEmailSubject` | `test-email.ftl` | Sent when clicking "Test connection" in SMTP settings. |
+
+## Default Template Wording
+
+Below are the default English strings used by Keycloak. Placeholders like `{0}`, `{1}`, etc., are automatically injected based on the event context.
+
+### 1. Password Reset
+- **Subject**: `Reset your password`
+- **Body**: `Someone has requested a password reset for your {2} account. If this was you, click the link below to reset your password.\n\n{0}\n\nThis link will expire within {3}.\n\nIf you don't want to reset your password, just ignore this message and nothing will be changed.`
+
+### 2. Email Verification
+- **Subject**: `Verify your email`
+- **Body**: `Someone has created a {2} account with this email address. If this was you, click the link below to verify your email address.\n\n{0}\n\nThis link will expire within {3}.\n\nIf you didn't create this account, just ignore this message.`
+
+### 3. Execute Actions (e.g. Update Password)
+- **Subject**: `Update Your Account`
+- **Body**: `Your administrator has just requested that you update your {2} account by performing the following action(s): {3}. Click on the link below to start this process.\n\n{0}\n\nThis link will expire within {4}.\n\nIf you are unaware that your administrator has requested this, just ignore this message and nothing will be changed.`
+
+### 4. Identity Provider Link
+- **Subject**: `Link {0}`
+- **Body**: `Someone wants to link your {2} account with {1} account of user {0}. If this was you, click the link below to link accounts.\n\n{3}\n\nThis link will expire within {5}.\n\nIf you didn't initiate this process, just ignore this message.`
+
+### 5. Email Update Confirmation
+- **Subject**: `Confirm Email Update`
+- **Body**: `To update your {2} account with email address {1}, click the link below.\n\n{0}\n\nThis link will expire within {3}.`
+
+### 6. Test Email
+- **Subject**: `Test message`
+- **Body**: `This is a test message`
 
 ## Build
 
