@@ -23,6 +23,13 @@ jobs:
           java-version: 17
           cache: "maven"
 
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Set project version
+        run: ./mvnw versions:set -DnewVersion=${{ steps.get_version.outputs.VERSION }} -DgenerateBackupPoms=false
+
       - name: Build with Maven
         run: ./mvnw clean package
 
