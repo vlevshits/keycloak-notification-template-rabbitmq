@@ -34,7 +34,7 @@ public class RabbitMqEmailConfig {
         cfg.exchange = resolveConfigVar(config, "exchange", "keycloak.email.exchange");
         cfg.routingKey = resolveConfigVar(config, "routing_key", "keycloak.email.render");
         cfg.replyTimeoutMs = Integer.valueOf(resolveConfigVar(config, "reply_timeout_ms", "10000"));
-        cfg.msgType = resolveConfigVar(config, "msg_type", "RabbitMqEmailRenderRequest");
+        cfg.msgType = resolveConfigVar(config, "msg_type", null);
 
         return cfg;
     }

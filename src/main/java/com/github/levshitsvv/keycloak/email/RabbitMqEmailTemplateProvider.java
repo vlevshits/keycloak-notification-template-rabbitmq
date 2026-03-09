@@ -62,6 +62,10 @@ public class RabbitMqEmailTemplateProvider extends FreeMarkerEmailTemplateProvid
             RabbitMqEmailRenderResponse response = JsonSerialization.readValue(jsonResponse,
                     RabbitMqEmailRenderResponse.class);
 
+            if (!response.isHandled()) {
+                throw new RuntimeException("External renderer did not handle this request (isHandled=false)");
+            }
+
             String subject = response.getSubject();
             String textBody = response.getTextBody();
             String htmlBody = response.getHtmlBody();

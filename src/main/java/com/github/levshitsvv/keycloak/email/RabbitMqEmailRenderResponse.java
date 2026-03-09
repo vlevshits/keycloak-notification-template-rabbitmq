@@ -4,6 +4,7 @@ public class RabbitMqEmailRenderResponse {
     private String subject;
     private String textBody;
     private String htmlBody;
+    private boolean handled;
 
     public String getSubject() {
         return subject;
@@ -27,5 +28,13 @@ public class RabbitMqEmailRenderResponse {
 
     public void setHtmlBody(String htmlBody) {
         this.htmlBody = htmlBody;
+    }
+
+    public boolean isHandled() {
+        return handled;
+    }
+
+    public void setHandled(boolean handled) {
+        this.handled = handled;
     }
 }

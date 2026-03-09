@@ -98,6 +98,7 @@ public class RabbitMqEmailRenderResponse {
     public string subject { get; set; }
     public string textBody { get; set; }
     public string htmlBody { get; set; }
+    public bool handled { get; set; }
 }
 ```
 
@@ -113,12 +114,16 @@ await bus.Rpc.RespondAsync<RabbitMqEmailRenderRequest, RabbitMqEmailRenderRespon
     
     // Your rendering logic here
     return new RabbitMqEmailRenderResponse {
+        handled = true,
         subject = "Rendered Subject",
         textBody = "Rendered Text Body",
         htmlBody = "<h1>Rendered HTML Body</h1>"
     };
 });
 ```
+
+> [!TIP]
+> **Selective Handling**: If your external service returns `handled = false`, the plugin will catch this and automatically fall back to Keycloak's default FreeMarker rendering. This allows you to handle only specific email types externally.
 
 > [!NOTE]
 > **EasyNetQ Type Compatibility**: By default, the plugin sets the `type` property to `RabbitMqEmailRenderRequest`. If your C# side uses a different namespace or class name, you MUST configure `KK_RMQ_EMAIL_MSG_TYPE` to match the EasyNetQ expected format (e.g., `MyNamespace.MyRequest, MyAssembly`).

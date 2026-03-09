@@ -27,13 +27,17 @@ public class RabbitMqRpcClient implements AutoCloseable {
             throws IOException, InterruptedException {
         final String corrId = UUID.randomUUID().toString();
 
-        AMQP.BasicProperties props = new AMQP.BasicProperties.Builder()
+        AMQP.BasicProperties.Builder propsBuilder = new AMQP.BasicProperties.Builder()
                 .correlationId(corrId)
                 .replyTo(replyQueueName)
                 .contentType("application/json")
-                .contentEncoding("UTF-8")
-                .type(type)
-                .build();
+                .contentEncoding("UTF-8");
+
+        if (type != null && !type.isEmpty()) {
+            propsBuilder.type(type);
+        }
+
+        AMQP.BasicProperties props = propsBuilder.build();
 
         channel.basicPublish(exchange, routingKey, props, message.getBytes(StandardCharsets.UTF_8));
 
