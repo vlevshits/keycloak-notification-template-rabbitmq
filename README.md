@@ -6,7 +6,6 @@ This Keycloak plugin allows you to delegate email template rendering to an exter
 - **External Rendering**: Sends attributes and template names to RabbitMQ for rendering.
 - **Fallback**: Automatically falls back to default Freemarker templates on RPC timeout or failure.
 - **EasyNetQ Compatible**: Designed to work with EasyNetQ's RPC pattern in C#.
-- **Branding**: Customized for LevshitsVV.
 
 ## Configuration
 
