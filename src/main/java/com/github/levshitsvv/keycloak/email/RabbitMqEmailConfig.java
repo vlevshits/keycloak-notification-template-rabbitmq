@@ -20,6 +20,7 @@ public class RabbitMqEmailConfig {
     private String routingKey;
     private Integer replyTimeoutMs;
     private String msgType;
+    private Boolean fallbackToDefault;
 
     public static RabbitMqEmailConfig createFromScope(Scope config) {
         RabbitMqEmailConfig cfg = new RabbitMqEmailConfig();
@@ -35,6 +36,7 @@ public class RabbitMqEmailConfig {
         cfg.routingKey = resolveConfigVar(config, "routing_key", "keycloak.email.render");
         cfg.replyTimeoutMs = Integer.valueOf(resolveConfigVar(config, "reply_timeout_ms", "10000"));
         cfg.msgType = resolveConfigVar(config, "msg_type", null);
+        cfg.fallbackToDefault = Boolean.valueOf(resolveConfigVar(config, "fallback_to_default", "true"));
 
         return cfg;
     }
@@ -95,5 +97,9 @@ public class RabbitMqEmailConfig {
 
     public String getMsgType() {
         return msgType;
+    }
+
+    public Boolean isFallbackToDefault() {
+        return fallbackToDefault;
     }
 }

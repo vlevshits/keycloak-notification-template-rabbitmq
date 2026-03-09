@@ -22,6 +22,7 @@ The plugin can be configured using environment variables with the `KK_RMQ_EMAIL_
 | `KK_RMQ_EMAIL_ROUTING_KEY` | Routing key for requests | `keycloak.email.render` |
 | `KK_RMQ_EMAIL_REPLY_TIMEOUT_MS` | RPC Timeout in ms | `10000` |
 | `KK_RMQ_EMAIL_MSG_TYPE` | Message type for `type` property | `RabbitMqEmailRenderRequest` |
+| `KK_RMQ_EMAIL_FALLBACK_TO_DEFAULT` | Fallback to Freemarker on failure | `true` |
 
 ## Subject Keys
 

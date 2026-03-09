@@ -28,8 +28,13 @@ public class RabbitMqEmailTemplateProvider extends FreeMarkerEmailTemplateProvid
         try {
             renderAndSend(subjectFormatKey, null, bodyTemplate, bodyAttributes);
         } catch (Exception e) {
-            log.warn("Failed to render email via RabbitMQ, falling back to FreeMarker", e);
-            super.send(subjectFormatKey, bodyTemplate, bodyAttributes);
+            if (cfg.isFallbackToDefault()) {
+                log.warn("Failed to render email via RabbitMQ, falling back to FreeMarker", e);
+                super.send(subjectFormatKey, bodyTemplate, bodyAttributes);
+            } else {
+                log.error("Failed to render email via RabbitMQ and fallback is disabled", e);
+                throw new EmailException("Failed to render email via RabbitMQ", e);
+            }
         }
     }
 
@@ -39,8 +44,13 @@ public class RabbitMqEmailTemplateProvider extends FreeMarkerEmailTemplateProvid
         try {
             renderAndSend(subjectFormatKey, subjectAttributes, bodyTemplate, bodyAttributes);
         } catch (Exception e) {
-            log.warn("Failed to render email via RabbitMQ, falling back to FreeMarker", e);
-            super.send(subjectFormatKey, subjectAttributes, bodyTemplate, bodyAttributes);
+            if (cfg.isFallbackToDefault()) {
+                log.warn("Failed to render email via RabbitMQ, falling back to FreeMarker", e);
+                super.send(subjectFormatKey, subjectAttributes, bodyTemplate, bodyAttributes);
+            } else {
+                log.error("Failed to render email via RabbitMQ and fallback is disabled", e);
+                throw new EmailException("Failed to render email via RabbitMQ", e);
+            }
         }
     }
 
